@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<head>
+	<title>Demo Panel</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="author" content="The Develovers" />
+	<style type="text/css">
+		body {
+			background: #fff;
+			padding: 5px;
+			font-family: "Helvetica Neue", sans-serif;
+			font-size: 13px;
+			color: #4d4d4d;
+		}
+
+		a {
+			color: #4d4d4d;
+			text-decoration: underline;
+		}
+
+		a:hover, a:focus {
+			text-decoration: none;
+		}
+
+		ul {
+			margin-top: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		ul li  {
+			list-style-type: none;
+			margin-bottom: 8px;
+		}
+		
+		.button-option-list a {
+			padding: 3px 10px;
+			background-color: #ccc;
+			color: #595959;
+			text-decoration: none;
+		}
+
+		.button-option-list a:hover, .button-option-list a:focus {
+			background-color: #bdbdbd;
+			text-decoration: none;
+		}
+
+		.button-option-list a.active {
+			background-color: #5CB85C; 
+			color: #fff;
+		}
+
+		h2 {
+			margin-top: 0;
+			margin-bottom: 10px;
+			font-size: 16px;
+		}
+
+		hr {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			border: 0;
+			border-top: 1px solid #ccc;
+		}
+
+		.color-list {
+			margin-bottom: 0;
+		}
+		
+		.color-list > li {
+			display: -moz-inline-stack;
+			display: inline-block;
+			zoom: 1;
+			*display: inline;
+		}
+
+		.color-list > li > a {
+			display: block;
+			width: 20px;
+			height: 20px;
+			background-color: #000;
+			text-indent: -9999px;
+		}
+
+		.color-list a:hover,
+		.color-list a:focus {
+			position: relative;
+			top: -2px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="demo-type">
+			<h2>Color</h2>
+			<ul class="color-list">
+				<li><a href="#" title="Orange" data-skin="orange" target="_parent" style="background-color: #FF4500;">Orange</a></li>
+				<li><a href="#" title="Slate Gray" data-skin="slategray" target="_parent" style="background-color: #708090;">Slate Gray</a></li>
+				<li><a href="#" title="Sea Green" data-skin="seagreen" style="background-color: #3F7577;">Seagreen</a></li>
+				<li><a href="#" title="Light Blue" data-skin="lightblue" target="_parent" style="background-color: #00D9FF;">Light Blue</a></li>
+			</ul>
+			<ul class="color-list">
+				<li><a href="#" title="Red" data-skin="red" target="_parent" style="background-color: #FF4B4B;">Red</a></li>
+				<li><a href="#" title="Gold" data-skin="gold" target="_parent" style="background-color: #FFB600;">Gold</a></li>
+				<li><a href="#" title="Blue" data-skin="blue" target="_parent" style="background-color: #376BAF;">Blue</a></li>
+				<li><a href="#" title="Green" data-skin="green" target="_parent" style="background-color: #1AB100;">Green</a></li>
+			</ul>
+			<a href="#" title="Default Color" class="reset-color" target="_parent">Default Color</a>
+			<hr />
+			<h2>Layout</h2>
+			<ul class="button-option-list layout-list">
+				<li><a id="layout-full" href="#" class="active" target="_parent">Full</a></li>
+				<li><a id="layout-boxed" href="#" target="_parent">Boxed</a></li>
+			</ul>
+			<hr />
+
+			<h2>Navigation Bar</h2>
+			<ul>
+				<li><a href="../features-navbar-fixedtop.html" target="_parent">Fixed Top</a></li>
+				<li><a href="../features-navbar-standard.html" target="_parent">Standard</a></li>
+				<li><a href="../features-navbar-autohiding.html" target="_parent">Auto Hiding</a></li>
+				<li><a href="../features-navbar-fixedshrink.html" target="_parent">Fixed &amp; Shrink</a></li>
+			</ul>
+			
+		</div>
+	</div>
+
+	<script src="../assets/js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready( function() {
+			$sourceURL = '';
+
+			$attr =  window.parent.$('#demo-panel').attr('data-sourceURL');
+			if (typeof $attr !== typeof undefined && $attr !== false) $sourceURL = window.parent.$('#demo-panel').attr('data-sourceURL');
+
+			// COLOR OPTIONS
+			$('.color-list a').click( function(e) {
+				e.preventDefault();
+
+				var skinName = $(this).attr('data-skin');
+
+				// change color and logo
+				if(window.parent.$('#css-skin').length > 0 ) window.parent.$('#css-skin').remove();
+
+				window.parent.$('head').append('<link id="css-skin" rel="stylesheet" href="' + $sourceURL + 'assets/css/skins/' + skinName + '.css" type="text/css" />');
+
+				if(window.parent.$('.navbar').hasClass('navbar-light-font')) {
+					window.parent.$('.navbar-brand img').attr("src", $sourceURL + "assets/img/logo/bravana-light-"+skinName+".png");
+					window.parent.$('img.logo-footer').attr("src", $sourceURL + "assets/img/logo/bravana-light-"+skinName+".png");
+				}
+				else {
+					window.parent.$('.navbar-brand img').attr("src", $sourceURL + "assets/img/logo/bravana-"+skinName+".png");
+					window.parent.$('img.logo-footer').attr("src", $sourceURL + "assets/img/logo/bravana-"+skinName+".png");
+				}
+
+			});
+
+			// RESET COLOR
+			$('.reset-color').click( function(e) {
+				e.preventDefault();
+
+				if(window.parent.$('#css-skin').length > 0 ) window.parent.$('#css-skin').remove();
+				window.parent.$('.navbar-brand img').attr("src", $sourceURL + "assets/img/logo/bravana-default.png");
+			});
+
+			// LAYOUT OPTIONS
+			$('.layout-list a').click( function(e) {
+				e.preventDefault();
+
+				$('.layout-list a').removeClass('active');
+
+				if($(this).attr('id') == 'layout-boxed') {
+					window.parent.$('body').addClass('layout-boxed');
+					$(this).addClass('active');
+				} else {
+					window.parent.$('body').removeClass('layout-boxed');
+					$(this).addClass('active');
+				}
+			});
+
+		});
+
+	</script>
+</body>
